@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<link rel="stylesheet" href="../css/forms.css">
+<link rel="stylesheet" href="../css/style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Internal Transfers - CoreInventory</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+display:flex;
+height:100vh;
+background:#0f172a;
+color:white;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+width:260px;
+background:#020617;
+padding:25px;
+display:flex;
+flex-direction:column;
+}
+
+.logo{
+font-size:22px;
+font-weight:600;
+color:#38bdf8;
+margin-bottom:35px;
+}
+
+.sidebar a{
+color:#cbd5f5;
+text-decoration:none;
+padding:12px;
+border-radius:8px;
+margin:4px 0;
+transition:0.3s;
+}
+
+.sidebar a:hover{
+background:#1e293b;
+color:#38bdf8;
+}
+
+/* MAIN AREA */
+
+.main{
+flex:1;
+padding:30px;
+overflow-y:auto;
+}
+
+/* TOPBAR */
+
+.topbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:25px;
+}
+
+.search{
+padding:10px;
+border-radius:8px;
+border:none;
+background:#1e293b;
+color:white;
+width:260px;
+}
+
+.add-btn{
+background:#38bdf8;
+border:none;
+padding:10px 16px;
+border-radius:8px;
+cursor:pointer;
+}
+
+/* TABLE */
+
+.table-container{
+background:#1e293b;
+padding:20px;
+border-radius:12px;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+}
+
+th,td{
+padding:12px;
+text-align:left;
+}
+
+th{
+color:#94a3b8;
+border-bottom:1px solid #334155;
+}
+
+tr:hover{
+background:#0f172a;
+}
+
+/* STATUS BADGES */
+
+.status{
+padding:5px 10px;
+border-radius:6px;
+font-size:12px;
+}
+
+.ready{
+background:#6366f1;
+}
+
+.inprogress{
+background:#f59e0b;
+}
+
+.done{
+background:#22c55e;
+}
+
+/* MODAL */
+
+.modal{
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.7);
+justify-content:center;
+align-items:center;
+}
+
+.modal-content{
+background:#1e293b;
+padding:25px;
+border-radius:12px;
+width:420px;
+}
+
+.modal input, .modal select{
+width:100%;
+padding:10px;
+margin:8px 0;
+border-radius:6px;
+border:none;
+background:#0f172a;
+color:white;
+}
+
+.modal button{
+margin-top:10px;
+padding:10px;
+background:#38bdf8;
+border:none;
+border-radius:6px;
+cursor:pointer;
+width:100%;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+
+<div class="sidebar">
+
+<div class="logo">CoreInventory</div>
+
+<a href="dashboard.html">Dashboard</a>
+<a href="products.html">Products</a>
+<a href="receipts.html">Receipts</a>
+<a href="deliveries.html">Delivery Orders</a>
+<a href="transfers.html">Internal Transfers</a>
+<a href="adjustments.html">Inventory Adjustment</a>
+<a href="movements.html">Move History</a>
+<a href="warehouses.html">Warehouses</a>
+<a href="settings.html">Settings</a>
+<a href="profile.html">Profile</a>
+<a href="logout.html">Logout</a>
+
+</div>
+
+<!-- MAIN -->
+
+<div class="main">
+
+<div class="topbar">
+
+<h2>Internal Transfers</h2>
+
+<input class="search" placeholder="Search transfer">
+
+<button class="add-btn" onclick="openModal()">Create Transfer</button>
+
+</div>
+
+<!-- TRANSFER TABLE -->
+
+<div class="table-container">
+
+<table>
+
+<thead>
+
+<tr>
+<th>Transfer ID</th>
+<th>Product</th>
+<th>Quantity</th>
+<th>From Location</th>
+<th>To Location</th>
+<th>Status</th>
+</tr>
+
+</thead>
+
+<tbody id="transferTable">
+
+<tr>
+<td>TR-001</td>
+<td>Steel Rod</td>
+<td>50 Kg</td>
+<td>Main Warehouse</td>
+<td>Production Floor</td>
+<td><span class="status done">Done</span></td>
+</tr>
+
+<tr>
+<td>TR-002</td>
+<td>Metal Frame</td>
+<td>20 Units</td>
+<td>Warehouse A</td>
+<td>Assembly Area</td>
+<td><span class="status inprogress">In Progress</span></td>
+</tr>
+
+<tr>
+<td>TR-003</td>
+<td>Wood Panels</td>
+<td>15 Units</td>
+<td>Main Warehouse</td>
+<td>Warehouse B</td>
+<td><span class="status ready">Ready</span></td>
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+<!-- CREATE TRANSFER MODAL -->
+
+<div class="modal" id="transferModal">
+
+<div class="modal-content">
+
+<h3>Create Internal Transfer</h3>
+
+<input type="text" id="product" placeholder="Product Name">
+
+<input type="number" id="qty" placeholder="Quantity">
+
+<select id="from">
+<option>Main Warehouse</option>
+<option>Warehouse A</option>
+<option>Production Floor</option>
+</select>
+
+<select id="to">
+<option>Production Floor</option>
+<option>Warehouse B</option>
+<option>Assembly Area</option>
+</select>
+
+<select id="status">
+<option>Ready</option>
+<option>In Progress</option>
+<option>Done</option>
+</select>
+
+<button onclick="addTransfer()">Save Transfer</button>
+
+</div>
+
+</div>
+
+<script>
+
+function openModal(){
+document.getElementById("transferModal").style.display="flex"
+}
+
+function addTransfer(){
+
+let product=document.getElementById("product").value
+let qty=document.getElementById("qty").value
+let from=document.getElementById("from").value
+let to=document.getElementById("to").value
+let status=document.getElementById("status").value
+
+let table=document.getElementById("transferTable")
+
+let id="TR-"+Math.floor(Math.random()*1000)
+
+let row=document.createElement("tr")
+
+row.innerHTML=
+`<td>${id}</td>
+<td>${product}</td>
+<td>${qty}</td>
+<td>${from}</td>
+<td>${to}</td>
+<td><span class="status ${status.toLowerCase().replace(" ","")}">${status}</span></td>`
+
+table.appendChild(row)
+
+document.getElementById("transferModal").style.display="none"
+
+}
+
+</script>
+
+</body>
+</html>

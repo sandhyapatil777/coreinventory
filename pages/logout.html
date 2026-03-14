@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logout - CoreInventory</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Main Styles -->
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/forms.css">
+
+    <style>
+        /* Custom logout page styling */
+        body {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #0f172a, #1e293b);
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Animated background circles */
+        body::before,
+        body::after {
+            content: "";
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.6;
+        }
+
+        body::before {
+            background: linear-gradient(#38bdf8, #6366f1);
+            top: -150px;
+            left: -150px;
+        }
+
+        body::after {
+            background: linear-gradient(#f472b6, #fb7185);
+            bottom: -150px;
+            right: -150px;
+        }
+
+        .logout-container {
+            width: 500px;
+            padding: 50px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            color: white;
+        }
+
+        .logout-container h1 {
+            font-size: 32px;
+            margin-bottom: 20px;
+            color: #38bdf8;
+        }
+
+        .logout-container p {
+            font-size: 16px;
+            color: #cbd5f5;
+            margin-bottom: 30px;
+        }
+
+        .logout-btn {
+            padding: 12px 30px;
+            background: #38bdf8;
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-weight: 500;
+            cursor: pointer;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: #0ea5e9;
+            transform: translateY(-2px);
+        }
+
+        .icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+            color: #f472b6;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="logout-container">
+        <div class="icon">🔒</div>
+        <h1>Logged Out Successfully!</h1>
+        <p>You have been safely logged out of CoreInventory.<br>
+            Thank you for using our Inventory Management System.</p>
+        <button class="logout-btn" onclick="redirectLogin()">Login Again</button>
+    </div>
+
+    <script>
+        function redirectLogin() {
+            window.location.href = "login.html";
+        }
+
+        // Auto redirect after 5 seconds
+        setTimeout(() => {
+            redirectLogin();
+        }, 5000);
+    </script>
+</body>
+
+</html>

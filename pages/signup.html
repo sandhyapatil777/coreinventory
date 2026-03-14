@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<link rel="stylesheet" href="css/forms.css">
+<link rel="stylesheet" href="css/style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Create Account - CoreInventory</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background:linear-gradient(135deg,#020617,#0f172a);
+overflow:hidden;
+}
+
+/* Background animation */
+
+body::before{
+content:"";
+position:absolute;
+width:600px;
+height:600px;
+background:linear-gradient(#6366f1,#38bdf8);
+border-radius:50%;
+top:-200px;
+left:-200px;
+filter:blur(120px);
+opacity:0.6;
+}
+
+body::after{
+content:"";
+position:absolute;
+width:600px;
+height:600px;
+background:linear-gradient(#fb7185,#f472b6);
+border-radius:50%;
+bottom:-200px;
+right:-200px;
+filter:blur(120px);
+opacity:0.6;
+}
+
+/* Container */
+
+.container{
+width:950px;
+display:flex;
+background:rgba(255,255,255,0.05);
+border-radius:20px;
+backdrop-filter:blur(20px);
+box-shadow:0 20px 40px rgba(0,0,0,0.6);
+overflow:hidden;
+}
+
+/* Left Panel */
+
+.left{
+flex:1;
+padding:60px;
+color:white;
+background:rgba(0,0,0,0.2);
+display:flex;
+flex-direction:column;
+justify-content:center;
+}
+
+.left h1{
+font-size:34px;
+margin-bottom:15px;
+}
+
+.left p{
+color:#cbd5f5;
+margin-bottom:25px;
+line-height:1.6;
+}
+
+.benefits div{
+margin:8px 0;
+font-size:14px;
+}
+
+/* Right Panel */
+
+.right{
+flex:1;
+padding:45px;
+background:#020617;
+display:flex;
+flex-direction:column;
+justify-content:center;
+}
+
+.right h2{
+margin-bottom:20px;
+color:white;
+}
+
+/* Input Groups */
+
+.input-group{
+position:relative;
+margin-bottom:22px;
+}
+
+.input-group input{
+width:100%;
+padding:12px;
+background:transparent;
+border:none;
+border-bottom:2px solid #334155;
+color:white;
+outline:none;
+}
+
+.input-group label{
+position:absolute;
+top:12px;
+left:0;
+color:#94a3b8;
+font-size:14px;
+transition:0.3s;
+pointer-events:none;
+}
+
+.input-group input:focus + label,
+.input-group input:valid + label{
+top:-10px;
+font-size:12px;
+color:#38bdf8;
+}
+
+/* Show password */
+
+.toggle{
+position:absolute;
+right:0;
+top:12px;
+cursor:pointer;
+font-size:12px;
+color:#94a3b8;
+}
+
+/* Password strength */
+
+.strength{
+height:6px;
+border-radius:4px;
+background:#334155;
+margin-top:5px;
+overflow:hidden;
+}
+
+.strength-bar{
+height:100%;
+width:0%;
+background:red;
+transition:0.3s;
+}
+
+/* Button */
+
+.signup-btn{
+margin-top:15px;
+padding:12px;
+background:#38bdf8;
+border:none;
+border-radius:8px;
+color:white;
+font-weight:500;
+cursor:pointer;
+transition:0.3s;
+}
+
+.signup-btn:hover{
+background:#0ea5e9;
+transform:translateY(-2px);
+}
+
+/* Links */
+
+.links{
+margin-top:15px;
+font-size:13px;
+text-align:center;
+}
+
+.links a{
+color:#38bdf8;
+text-decoration:none;
+}
+
+/* Responsive */
+
+@media(max-width:900px){
+
+.container{
+flex-direction:column;
+width:90%;
+}
+
+.left{
+display:none;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- LEFT INFO PANEL -->
+
+<div class="left">
+
+<h1>CoreInventory</h1>
+
+<p>
+Create your account to manage products, track stock,
+monitor warehouse operations, and automate inventory workflows.
+</p>
+
+<div class="benefits">
+
+<div>✔ Real-time stock tracking</div>
+<div>✔ Multi-warehouse support</div>
+<div>✔ Smart SKU search</div>
+<div>✔ Delivery & receipt automation</div>
+<div>✔ Inventory adjustments & reports</div>
+
+</div>
+
+</div>
+
+<!-- RIGHT SIGNUP FORM -->
+
+<div class="right">
+
+<h2>Create Account</h2>
+
+<div class="input-group">
+<input type="text" id="name" name="name" required>
+<label>Full Name</label>
+</div>
+
+<div class="input-group">
+<input type="email" id="email" name="email" required>
+<label>Email Address</label>
+</div>
+
+<div class="input-group">
+<input type="text" id="loginid" required>
+<label>Login ID</label>
+</div>
+
+<div class="input-group">
+<input type="password" id="password" name="password" required onkeyup="checkStrength()">
+<label>Password</label>
+<span class="toggle" onclick="togglePassword()">Show</span>
+
+<div class="strength">
+<div class="strength-bar" id="strengthBar"></div>
+</div>
+</div>
+
+<div class="input-group">
+<input type="password" id="confirm" required>
+<label>Confirm Password</label>
+</div>
+
+<button class="signup-btn" onclick="signup()">Create Account</button>
+
+<div class="links">
+
+Already have an account?
+<a href="login.html">Login</a>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+/* Show password */
+
+function togglePassword(){
+
+let pass=document.getElementById("password")
+
+if(pass.type==="password"){
+pass.type="text"
+}else{
+pass.type="password"
+}
+
+}
+
+/* Password strength */
+
+function checkStrength(){
+
+let pass=document.getElementById("password").value
+let bar=document.getElementById("strengthBar")
+
+let strength=0
+
+if(pass.length>5) strength+=25
+if(pass.match(/[A-Z]/)) strength+=25
+if(pass.match(/[0-9]/)) strength+=25
+if(pass.match(/[^A-Za-z0-9]/)) strength+=25
+
+bar.style.width=strength+"%"
+
+if(strength<50){
+bar.style.background="red"
+}else if(strength<75){
+bar.style.background="orange"
+}else{
+bar.style.background="green"
+}
+
+}
+
+/* Signup */
+
+function signup(){
+
+let pass=document.getElementById("password").value
+let confirm=document.getElementById("confirm").value
+
+if(pass!==confirm){
+alert("Passwords do not match")
+return
+}
+else{
+alert("Account created successfully!")
+}
+window.location.href="login.html"
+
+}
+
+</script>
+
+</body>
+
+</html>

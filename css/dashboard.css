@@ -1,0 +1,307 @@
+/* ===================================
+   DASHBOARD PAGE STYLING
+=================================== */
+
+.dashboard-container{
+display:flex;
+flex-direction:column;
+gap:25px;
+}
+
+/* ===================================
+   DASHBOARD HEADER
+=================================== */
+
+.dashboard-header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:10px;
+}
+
+.dashboard-title{
+font-size:28px;
+font-weight:600;
+color:#38bdf8;
+}
+
+.dashboard-actions{
+display:flex;
+gap:10px;
+}
+
+.dashboard-actions button{
+padding:10px 16px;
+border:none;
+border-radius:10px;
+background:linear-gradient(135deg,#38bdf8,#6366f1);
+color:white;
+cursor:pointer;
+transition:0.3s;
+}
+
+.dashboard-actions button:hover{
+transform:translateY(-3px);
+box-shadow:0 8px 15px rgba(56,189,248,0.3);
+}
+
+/* ===================================
+   KPI GRID
+=================================== */
+
+.kpi-grid{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:20px;
+margin-bottom:20px;
+}
+
+/* KPI CARD */
+
+.kpi-card{
+background:linear-gradient(145deg,#1e293b,#020617);
+padding:22px;
+border-radius:14px;
+box-shadow:0 10px 20px rgba(0,0,0,0.5);
+transition:0.3s;
+position:relative;
+overflow:hidden;
+}
+
+.kpi-card::before{
+content:"";
+position:absolute;
+top:0;
+left:0;
+width:100%;
+height:4px;
+background:linear-gradient(90deg,#38bdf8,#6366f1);
+}
+
+.kpi-card:hover{
+transform:translateY(-5px);
+box-shadow:0 15px 30px rgba(0,0,0,0.6);
+}
+
+.kpi-title{
+font-size:14px;
+color:#94a3b8;
+margin-bottom:8px;
+}
+
+.kpi-value{
+font-size:32px;
+font-weight:600;
+color:#38bdf8;
+}
+
+/* ===================================
+   DASHBOARD CHARTS
+=================================== */
+
+.dashboard-charts{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:20px;
+}
+
+.chart-box{
+background:#1e293b;
+padding:20px;
+border-radius:14px;
+box-shadow:0 10px 25px rgba(0,0,0,0.5);
+}
+
+.chart-title{
+margin-bottom:12px;
+font-weight:500;
+color:#cbd5f5;
+}
+
+.chart-placeholder{
+height:220px;
+background:#0f172a;
+border-radius:10px;
+display:flex;
+align-items:center;
+justify-content:center;
+color:#64748b;
+font-size:14px;
+}
+
+/* ===================================
+   INVENTORY TABLE
+=================================== */
+
+.inventory-table{
+margin-top:25px;
+background:#1e293b;
+padding:20px;
+border-radius:14px;
+box-shadow:0 10px 25px rgba(0,0,0,0.4);
+}
+
+.inventory-table h3{
+margin-bottom:15px;
+font-weight:500;
+}
+
+.inventory-table table{
+width:100%;
+border-collapse:collapse;
+}
+
+.inventory-table th{
+text-align:left;
+padding:12px;
+border-bottom:1px solid #334155;
+color:#94a3b8;
+font-size:14px;
+}
+
+.inventory-table td{
+padding:12px;
+font-size:14px;
+}
+
+.inventory-table tr{
+transition:0.2s;
+}
+
+.inventory-table tr:hover{
+background:#0f172a;
+}
+
+/* ===================================
+   STATUS BADGES
+=================================== */
+
+.badge{
+padding:5px 10px;
+border-radius:8px;
+font-size:12px;
+font-weight:500;
+}
+
+.badge-success{
+background:#22c55e;
+color:#022c22;
+}
+
+.badge-warning{
+background:#f59e0b;
+color:#3b1d00;
+}
+
+.badge-danger{
+background:#ef4444;
+color:white;
+}
+
+.badge-info{
+background:#6366f1;
+color:white;
+}
+
+/* ===================================
+   LOW STOCK ALERT
+=================================== */
+
+.low-stock{
+margin-top:20px;
+background:#7f1d1d;
+padding:18px;
+border-radius:12px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.low-stock h4{
+color:#fecaca;
+}
+
+.low-stock button{
+background:#ef4444;
+padding:8px 14px;
+border-radius:8px;
+border:none;
+cursor:pointer;
+color:white;
+}
+
+/* ===================================
+   DASHBOARD FILTERS
+=================================== */
+
+.dashboard-filters{
+display:flex;
+gap:12px;
+margin-bottom:15px;
+}
+
+.dashboard-filters select{
+padding:8px;
+border-radius:8px;
+border:none;
+background:#0f172a;
+color:white;
+}
+
+/* ===================================
+   ACTIVITY LOG
+=================================== */
+
+.activity-log{
+margin-top:25px;
+background:#1e293b;
+padding:20px;
+border-radius:14px;
+}
+
+.activity-log h3{
+margin-bottom:15px;
+}
+
+.activity-item{
+display:flex;
+justify-content:space-between;
+padding:10px 0;
+border-bottom:1px solid #334155;
+font-size:14px;
+}
+
+.activity-item:last-child{
+border:none;
+}
+
+/* ===================================
+   RESPONSIVE
+=================================== */
+
+@media(max-width:1100px){
+
+.kpi-grid{
+grid-template-columns:repeat(2,1fr);
+}
+
+.dashboard-charts{
+grid-template-columns:1fr;
+}
+
+}
+
+@media(max-width:700px){
+
+.dashboard-header{
+flex-direction:column;
+align-items:flex-start;
+gap:10px;
+}
+
+.dashboard-actions{
+width:100%;
+justify-content:flex-start;
+}
+
+}

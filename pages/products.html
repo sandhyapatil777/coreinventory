@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<link rel="stylesheet" href="../css/forms.css">
+<link rel="stylesheet" href="../css/style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Products - CoreInventory</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+display:flex;
+height:100vh;
+background:#0f172a;
+color:white;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+width:260px;
+background:#020617;
+padding:25px;
+display:flex;
+flex-direction:column;
+}
+
+.logo{
+font-size:22px;
+font-weight:600;
+color:#38bdf8;
+margin-bottom:35px;
+}
+
+.sidebar a{
+color:#cbd5f5;
+text-decoration:none;
+padding:12px;
+border-radius:8px;
+margin:4px 0;
+transition:0.3s;
+}
+
+.sidebar a:hover{
+background:#1e293b;
+color:#38bdf8;
+}
+
+/* MAIN */
+
+.main{
+flex:1;
+padding:30px;
+overflow-y:auto;
+}
+
+/* TOP BAR */
+
+.topbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:25px;
+}
+
+.search{
+padding:10px;
+border-radius:8px;
+border:none;
+background:#1e293b;
+color:white;
+width:260px;
+}
+
+.add-btn{
+background:#38bdf8;
+border:none;
+padding:10px 16px;
+border-radius:8px;
+cursor:pointer;
+}
+
+/* FILTERS */
+
+.filters{
+display:flex;
+gap:10px;
+margin-bottom:20px;
+}
+
+select{
+padding:8px;
+background:#1e293b;
+border:none;
+border-radius:6px;
+color:white;
+}
+
+/* TABLE */
+
+.table-container{
+background:#1e293b;
+padding:20px;
+border-radius:12px;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+}
+
+th,td{
+padding:12px;
+text-align:left;
+}
+
+th{
+color:#94a3b8;
+border-bottom:1px solid #334155;
+}
+
+tr:hover{
+background:#0f172a;
+}
+
+/* STOCK STATUS */
+
+.stock-high{
+color:#22c55e;
+}
+
+.stock-low{
+color:#f59e0b;
+}
+
+.stock-out{
+color:#ef4444;
+}
+
+/* MODAL */
+
+.modal{
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.7);
+justify-content:center;
+align-items:center;
+}
+
+.modal-content{
+background:#1e293b;
+padding:25px;
+border-radius:12px;
+width:350px;
+}
+
+.modal input{
+width:100%;
+padding:10px;
+margin:8px 0;
+border-radius:6px;
+border:none;
+background:#0f172a;
+color:white;
+}
+
+.modal button{
+margin-top:10px;
+padding:10px;
+background:#38bdf8;
+border:none;
+border-radius:6px;
+cursor:pointer;
+width:100%;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:900px){
+
+.sidebar{
+display:none;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+
+<div class="sidebar">
+
+<div class="logo">CoreInventory</div>
+
+<a href="dashboard.html">Dashboard</a>
+<a href="products.html">Products</a>
+<a href="receipts.html">Receipts</a>
+<a href="deliveries.html">Delivery Orders</a>
+<a href="transfers.html">Internal Transfers</a>
+<a href="adjustments.html">Inventory Adjustment</a>
+<a href="movements.html">Move History</a>
+<a href="warehouses.html">Warehouses</a>
+<a href="settings.html">Settings</a>
+<a href="profile.html">Profile</a>
+<a href="logout.html">Logout</a>
+</div>
+
+<!-- MAIN -->
+
+<div class="main">
+
+<div class="topbar">
+
+<h2>Products</h2>
+
+<input class="search" placeholder="Search product or SKU">
+
+<button class="add-btn" onclick="openModal()">Add Product</button>
+
+</div>
+
+<!-- FILTERS -->
+
+<div class="filters">
+
+<select>
+<option>Category</option>
+<option>Raw Material</option>
+<option>Finished Goods</option>
+</select>
+
+<select>
+<option>Stock Status</option>
+<option>High</option>
+<option>Low</option>
+<option>Out of Stock</option>
+</select>
+
+</div>
+
+<!-- PRODUCT TABLE -->
+
+<div class="table-container">
+
+<table>
+
+<thead>
+
+<tr>
+<th>Product Name</th>
+<th>SKU</th>
+<th>Category</th>
+<th>Unit</th>
+<th>Stock</th>
+<th>Location</th>
+</tr>
+
+</thead>
+
+<tbody id="productTable">
+
+<tr>
+<td>Steel Rod</td>
+<td>SR-001</td>
+<td>Raw Material</td>
+<td>Kg</td>
+<td class="stock-high">120</td>
+<td>Main Warehouse</td>
+</tr>
+
+<tr>
+<td>Chair</td>
+<td>CH-210</td>
+<td>Furniture</td>
+<td>Piece</td>
+<td class="stock-low">8</td>
+<td>Warehouse A</td>
+</tr>
+
+<tr>
+<td>Metal Frame</td>
+<td>MF-110</td>
+<td>Finished Goods</td>
+<td>Piece</td>
+<td class="stock-out">0</td>
+<td>Production Floor</td>
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+<!-- ADD PRODUCT MODAL -->
+
+<div class="modal" id="productModal">
+
+<div class="modal-content">
+
+<h3>Add Product</h3>
+
+<input type="text" id="name" placeholder="Product Name">
+<input type="text" id="sku" placeholder="SKU Code">
+<input type="text" id="category" placeholder="Category">
+<input type="text" id="unit" placeholder="Unit of Measure">
+<input type="number" id="stock" placeholder="Initial Stock">
+
+<button onclick="addProduct()">Save Product</button>
+
+</div>
+
+</div>
+
+<script>
+
+function openModal(){
+document.getElementById("productModal").style.display="flex"
+}
+
+function addProduct(){
+
+let name=document.getElementById("name").value
+let sku=document.getElementById("sku").value
+let category=document.getElementById("category").value
+let unit=document.getElementById("unit").value
+let stock=document.getElementById("stock").value
+
+let table=document.getElementById("productTable")
+
+let row=document.createElement("tr")
+
+row.innerHTML=
+
+`<td>${name}</td>
+<td>${sku}</td>
+<td>${category}</td>
+<td>${unit}</td>
+<td>${stock}</td>
+<td>Main Warehouse</td>`
+
+table.appendChild(row)
+
+document.getElementById("productModal").style.display="none"
+
+}
+
+</script>
+
+</body>
+</html>

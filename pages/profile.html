@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<link rel="stylesheet" href="../css/forms.css">
+<link rel="stylesheet" href="../css/style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>User Profile - CoreInventory</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+display:flex;
+height:100vh;
+background:#0f172a;
+color:white;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+width:260px;
+background:#020617;
+padding:25px;
+display:flex;
+flex-direction:column;
+}
+
+.logo{
+font-size:22px;
+font-weight:600;
+color:#38bdf8;
+margin-bottom:35px;
+}
+
+.sidebar a{
+color:#cbd5f5;
+text-decoration:none;
+padding:12px;
+border-radius:8px;
+margin:4px 0;
+transition:0.3s;
+}
+
+.sidebar a:hover{
+background:#1e293b;
+color:#38bdf8;
+}
+
+/* MAIN */
+
+.main{
+flex:1;
+padding:30px;
+overflow-y:auto;
+}
+
+/* PROFILE HEADER */
+
+.profile-header{
+display:flex;
+align-items:center;
+gap:20px;
+margin-bottom:30px;
+background:#1e293b;
+padding:20px;
+border-radius:12px;
+}
+
+.avatar{
+width:80px;
+height:80px;
+border-radius:50%;
+background:#38bdf8;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:30px;
+font-weight:600;
+color:#020617;
+}
+
+.user-info h2{
+margin-bottom:5px;
+}
+
+.role{
+color:#94a3b8;
+font-size:14px;
+}
+
+/* GRID */
+
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:25px;
+}
+
+/* CARD */
+
+.card{
+background:#1e293b;
+padding:20px;
+border-radius:12px;
+}
+
+.card h3{
+margin-bottom:15px;
+}
+
+/* FORM */
+
+input{
+width:100%;
+padding:10px;
+margin:8px 0;
+border-radius:6px;
+border:none;
+background:#0f172a;
+color:white;
+}
+
+button{
+margin-top:10px;
+padding:10px;
+background:#38bdf8;
+border:none;
+border-radius:6px;
+cursor:pointer;
+}
+
+/* ACTIVITY */
+
+.activity{
+display:flex;
+gap:20px;
+margin-top:20px;
+}
+
+.stat{
+flex:1;
+background:#0f172a;
+padding:15px;
+border-radius:8px;
+text-align:center;
+}
+
+.stat h2{
+color:#38bdf8;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:900px){
+
+.sidebar{
+display:none;
+}
+
+.grid{
+grid-template-columns:1fr;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+
+<div class="sidebar">
+
+<div class="logo">CoreInventory</div>
+
+<a href="dashboard.html">Dashboard</a>
+<a href="products.html">Products</a>
+<a href="receipts.html">Receipts</a>
+<a href="deliveries.html">Delivery Orders</a>
+<a href="transfers.html">Internal Transfers</a>
+<a href="adjustments.html">Inventory Adjustment</a>
+<a href="movements.html">Move History</a>
+<a href="warehouses.html">Warehouses</a>
+<a href="settings.html">Settings</a>
+<a href="profile.html">Profile</a>
+<a href="logout.html">Logout</a>
+</div>
+
+<!-- MAIN -->
+
+<div class="main">
+
+<!-- PROFILE HEADER -->
+
+<div class="profile-header">
+
+<div class="avatar">A</div>
+
+<div class="user-info">
+<h2>Admin User</h2>
+<p class="role">Inventory Manager</p>
+</div>
+
+</div>
+
+<!-- GRID -->
+
+<div class="grid">
+
+<!-- PERSONAL INFO -->
+
+<div class="card">
+
+<h3>Personal Information</h3>
+
+<input type="text" value="Admin User">
+<input type="email" value="admin@coreinventory.com">
+<input type="text" value="+91 9876543210">
+
+<button onclick="saveProfile()" type="submit">Save Changes</button>
+
+</div>
+
+<!-- PASSWORD CHANGE -->
+
+<div class="card">
+
+<h3>Change Password</h3>
+
+<input type="password" placeholder="Current Password">
+<input type="password" placeholder="New Password">
+<input type="password" placeholder="Confirm Password">
+
+<button onclick="changePassword()">Update Password</button>
+
+</div>
+
+</div>
+
+<!-- ACTIVITY STATS -->
+
+<div class="card" style="margin-top:25px;">
+
+<h3>Activity Summary</h3>
+
+<div class="activity">
+
+<div class="stat">
+<h2>125</h2>
+<p>Products Managed</p>
+</div>
+
+<div class="stat">
+<h2>48</h2>
+<p>Receipts Created</p>
+</div>
+
+<div class="stat">
+<h2>32</h2>
+<p>Deliveries Processed</p>
+</div>
+
+<div class="stat">
+<h2>15</h2>
+<p>Transfers Managed</p>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+function saveProfile(){
+alert("Profile updated successfully")
+}
+
+function changePassword(){
+alert("Password updated successfully")
+}
+
+</script>
+
+</body>
+</html>

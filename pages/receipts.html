@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Receipts - CoreInventory</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+display:flex;
+height:100vh;
+background:#0f172a;
+color:white;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+width:260px;
+background:#020617;
+padding:25px;
+display:flex;
+flex-direction:column;
+}
+
+.logo{
+font-size:22px;
+font-weight:600;
+color:#38bdf8;
+margin-bottom:35px;
+}
+
+.sidebar a{
+color:#cbd5f5;
+text-decoration:none;
+padding:12px;
+border-radius:8px;
+margin:4px 0;
+transition:0.3s;
+}
+
+.sidebar a:hover{
+background:#1e293b;
+color:#38bdf8;
+}
+
+/* MAIN */
+
+.main{
+flex:1;
+padding:30px;
+overflow-y:auto;
+}
+
+/* TOP BAR */
+
+.topbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:25px;
+}
+
+.search{
+padding:10px;
+border-radius:8px;
+border:none;
+background:#1e293b;
+color:white;
+width:260px;
+}
+
+.add-btn{
+background:#38bdf8;
+border:none;
+padding:10px 16px;
+border-radius:8px;
+cursor:pointer;
+}
+
+/* RECEIPT TABLE */
+
+.table-container{
+background:#1e293b;
+padding:20px;
+border-radius:12px;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+}
+
+th,td{
+padding:12px;
+text-align:left;
+}
+
+th{
+color:#94a3b8;
+border-bottom:1px solid #334155;
+}
+
+tr:hover{
+background:#0f172a;
+}
+
+/* STATUS */
+
+.status{
+padding:5px 10px;
+border-radius:6px;
+font-size:12px;
+}
+
+.draft{
+background:#475569;
+}
+
+.waiting{
+background:#f59e0b;
+}
+
+.done{
+background:#22c55e;
+}
+
+.back-btn{
+background:#38bdf8;
+border:none;
+color:#ffffff;
+font-size:14px;
+padding:6px 12px;
+border-radius:6px;
+margin-bottom:10px;
+cursor:pointer;
+display:inline-block;
+}
+
+.back-btn:hover{
+background:#0ea5e9;
+}
+
+/* MODAL */
+
+.modal{
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.7);
+justify-content:center;
+align-items:center;
+}
+
+.modal-content{
+background:#1e293b;
+padding:25px;
+border-radius:12px;
+width:400px;
+}
+
+.modal input, .modal select{
+width:100%;
+padding:10px;
+margin:8px 0;
+border-radius:6px;
+border:none;
+background:#0f172a;
+color:white;
+}
+
+.modal button{
+margin-top:10px;
+padding:10px;
+background:#38bdf8;
+border:none;
+border-radius:6px;
+cursor:pointer;
+width:100%;
+}
+
+/* SUCCESS MESSAGE */
+
+.success-msg{
+position:fixed;
+top:20px;
+right:20px;
+background:#22c55e;
+padding:15px 20px;
+border-radius:8px;
+display:none;
+font-weight:500;
+box-shadow:0 5px 15px rgba(0,0,0,0.3);
+animation:fadein 0.5s;
+}
+
+@keyframes fadein{
+from{opacity:0; transform:translateY(-10px);}
+to{opacity:1; transform:translateY(0);}
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- SUCCESS MESSAGE -->
+
+<div id="successMsg" class="success-msg">
+Receipt Saved Successfully ✔
+</div>
+
+<!-- SIDEBAR -->
+
+<div class="sidebar">
+
+<div class="logo">CoreInventory</div>
+
+<a href="dashboard.html">Dashboard</a>
+<a href="products.html">Products</a>
+<a href="receipts.html">Receipts</a>
+<a href="deliveries.html">Delivery Orders</a>
+<a href="transfers.html">Internal Transfers</a>
+<a href="adjustments.html">Inventory Adjustment</a>
+<a href="movements.html">Move History</a>
+<a href="warehouses.html">Warehouses</a>
+<a href="settings.html">Settings</a>
+<a href="profile.html">Profile</a>
+<a href="logout.html">Logout</a>
+
+</div>
+
+<!-- MAIN -->
+
+<div class="main">
+
+<div class="topbar">
+
+<h2>Incoming Receipts</h2>
+
+<input class="search" id="searchInput" placeholder="Search receipt or supplier">
+
+<button class="add-btn" onclick="openModal()">New Receipt</button>
+
+</div>
+
+<!-- RECEIPT TABLE -->
+
+<div class="table-container">
+
+<table>
+
+<thead>
+
+<tr>
+<th>Receipt ID</th>
+<th>Supplier</th>
+<th>Product</th>
+<th>Quantity</th>
+<th>Warehouse</th>
+<th>Status</th>
+</tr>
+
+</thead>
+
+<tbody id="receiptTable">
+
+<tr>
+<td>RC-001</td>
+<td>ABC Steel Ltd</td>
+<td>Steel Rod</td>
+<td>100 Kg</td>
+<td>Main Warehouse</td>
+<td><span class="status done">Done</span></td>
+</tr>
+
+<tr>
+<td>RC-002</td>
+<td>Global Furniture</td>
+<td>Wood Chair</td>
+<td>50 Units</td>
+<td>Warehouse A</td>
+<td><span class="status waiting">Waiting</span></td>
+</tr>
+
+<tr>
+<td>RC-003</td>
+<td>Metal Works</td>
+<td>Metal Frame</td>
+<td>30 Units</td>
+<td>Production Floor</td>
+<td><span class="status draft">Draft</span></td>
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+<!-- CREATE RECEIPT MODAL -->
+
+<div class="modal" id="receiptModal">
+
+<div class="modal-content">
+
+<button class="back-btn" onclick="closeReceiptForm()">← Back</button>
+
+<h2>Create Receipt</h2>
+
+<input type="text" id="supplier" placeholder="Supplier Name">
+
+<input type="text" id="product" placeholder="Product Name">
+
+<input type="number" id="qty" placeholder="Quantity">
+
+<select id="warehouse">
+<option>Main Warehouse</option>
+<option>Production Floor</option>
+<option>Warehouse A</option>
+</select>
+
+<select id="status">
+<option>Draft</option>
+<option>Waiting</option>
+<option>Done</option>
+</select>
+
+<button onclick="addReceipt()">Save Receipt</button>
+
+</div>
+
+</div>
+
+<script>
+
+function openModal(){
+document.getElementById("receiptModal").style.display="flex";
+}
+
+function closeReceiptForm(){
+document.getElementById("receiptModal").style.display="none";
+}
+
+function addReceipt(){
+
+let supplier=document.getElementById("supplier").value
+let product=document.getElementById("product").value
+let qty=document.getElementById("qty").value
+let warehouse=document.getElementById("warehouse").value
+let status=document.getElementById("status").value
+
+let table=document.getElementById("receiptTable")
+
+let id="RC-"+Math.floor(Math.random()*1000)
+
+let row=document.createElement("tr")
+
+row.innerHTML=
+`<td>${id}</td>
+<td>${supplier}</td>
+<td>${product}</td>
+<td>${qty}</td>
+<td>${warehouse}</td>
+<td><span class="status ${status.toLowerCase()}">${status}</span></td>`
+
+table.appendChild(row)
+
+table.appendChild(row);
+
+// Add click listener for new row
+row.addEventListener("click", () => {
+  document.getElementById("detailId").innerText = id;
+  document.getElementById("detailSupplier").innerText = supplier;
+  document.getElementById("detailProduct").innerText = product;
+  document.getElementById("detailQty").innerText = qty;
+  document.getElementById("detailWarehouse").innerText = warehouse;
+  document.getElementById("detailStatus").innerText = status;
+  document.getElementById("detailShipped").innerText = status.toLowerCase() === "done" ? "Yes" : "No";
+
+  const modal = document.getElementById("detailsModal");
+  modal.style.display = "flex";
+  modal.classList.add("show");
+});
+
+/* CLOSE MODAL */
+
+document.getElementById("receiptModal").style.display="none"
+
+/* SUCCESS MESSAGE */
+
+let msg=document.getElementById("successMsg")
+msg.style.display="block"
+
+setTimeout(()=>{
+msg.style.display="none"
+},3000)
+
+/* CLEAR FORM */
+
+document.getElementById("supplier").value=""
+document.getElementById("product").value=""
+document.getElementById("qty").value=""
+
+}
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<link rel="stylesheet" href="../css/forms.css">
+<link rel="stylesheet" href="../css/style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Inventory Adjustments - CoreInventory</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+display:flex;
+height:100vh;
+background:#0f172a;
+color:white;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+width:260px;
+background:#020617;
+padding:25px;
+display:flex;
+flex-direction:column;
+}
+
+.logo{
+font-size:22px;
+font-weight:600;
+color:#38bdf8;
+margin-bottom:35px;
+}
+
+.sidebar a{
+color:#cbd5f5;
+text-decoration:none;
+padding:12px;
+border-radius:8px;
+margin:4px 0;
+transition:0.3s;
+}
+
+.sidebar a:hover{
+background:#1e293b;
+color:#38bdf8;
+}
+
+/* MAIN */
+
+.main{
+flex:1;
+padding:30px;
+overflow-y:auto;
+}
+
+/* TOP BAR */
+
+.topbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:25px;
+}
+
+.search{
+padding:10px;
+border-radius:8px;
+border:none;
+background:#1e293b;
+color:white;
+width:260px;
+}
+
+.add-btn{
+background:#38bdf8;
+border:none;
+padding:10px 16px;
+border-radius:8px;
+cursor:pointer;
+}
+
+/* TABLE */
+
+.table-container{
+background:#1e293b;
+padding:20px;
+border-radius:12px;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+}
+
+th,td{
+padding:12px;
+text-align:left;
+}
+
+th{
+color:#94a3b8;
+border-bottom:1px solid #334155;
+}
+
+tr:hover{
+background:#0f172a;
+}
+
+/* STATUS */
+
+.status{
+padding:5px 10px;
+border-radius:6px;
+font-size:12px;
+}
+
+.pending{
+background:#f59e0b;
+}
+
+.approved{
+background:#22c55e;
+}
+
+.rejected{
+background:#ef4444;
+}
+
+/* MODAL */
+
+.modal{
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.7);
+justify-content:center;
+align-items:center;
+}
+
+.modal-content{
+background:#1e293b;
+padding:25px;
+border-radius:12px;
+width:420px;
+}
+
+.modal input, .modal select, .modal textarea{
+width:100%;
+padding:10px;
+margin:8px 0;
+border-radius:6px;
+border:none;
+background:#0f172a;
+color:white;
+}
+
+.modal button{
+margin-top:10px;
+padding:10px;
+background:#38bdf8;
+border:none;
+border-radius:6px;
+cursor:pointer;
+width:100%;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+
+<div class="sidebar">
+
+<div class="logo">CoreInventory</div>
+
+<a href="dashboard.html">Dashboard</a>
+<a href="products.html">Products</a>
+<a href="receipts.html">Receipts</a>
+<a href="deliveries.html">Delivery Orders</a>
+<a href="transfers.html">Internal Transfers</a>
+<a href="adjustments.html">Inventory Adjustment</a>
+<a href="movements.html">Move History</a>
+<a href="warehouses.html">Warehouses</a>
+<a href="adjustments.html">Settings</a>
+<a href="profile.html">Profile</a>
+<a href="#">Logout</a>
+
+</div>
+
+<!-- MAIN -->
+
+<div class="main">
+
+<div class="topbar">
+
+<h2>Inventory Adjustments</h2>
+
+<input class="search" placeholder="Search adjustment">
+
+<button class="add-btn" onclick="openModal()">New Adjustment</button>
+
+</div>
+
+<!-- ADJUSTMENT TABLE -->
+
+<div class="table-container">
+
+<table>
+
+<thead>
+
+<tr>
+<th>Adjustment ID</th>
+<th>Product</th>
+<th>System Stock</th>
+<th>Physical Count</th>
+<th>Difference</th>
+<th>Location</th>
+<th>Status</th>
+</tr>
+
+</thead>
+
+<tbody id="adjustmentTable">
+
+<tr>
+<td>ADJ-001</td>
+<td>Steel Rod</td>
+<td>100</td>
+<td>97</td>
+<td>-3</td>
+<td>Main Warehouse</td>
+<td><span class="status approved">Approved</span></td>
+</tr>
+
+<tr>
+<td>ADJ-002</td>
+<td>Chair</td>
+<td>50</td>
+<td>48</td>
+<td>-2</td>
+<td>Warehouse A</td>
+<td><span class="status pending">Pending</span></td>
+</tr>
+
+<tr>
+<td>ADJ-003</td>
+<td>Metal Frame</td>
+<td>30</td>
+<td>31</td>
+<td>+1</td>
+<td>Production Floor</td>
+<td><span class="status rejected">Rejected</span></td>
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+<!-- CREATE ADJUSTMENT MODAL -->
+
+<div class="modal" id="adjustModal">
+
+<div class="modal-content">
+
+<h3>Create Stock Adjustment</h3>
+
+<input type="text" id="product" placeholder="Product Name">
+
+<input type="number" id="systemStock" placeholder="System Stock">
+
+<input type="number" id="physicalStock" placeholder="Physical Count">
+
+<select id="location">
+<option>Main Warehouse</option>
+<option>Warehouse A</option>
+<option>Production Floor</option>
+</select>
+
+<textarea id="reason" placeholder="Reason for Adjustment"></textarea>
+
+<select id="status">
+<option>Pending</option>
+<option>Approved</option>
+<option>Rejected</option>
+</select>
+
+<button onclick="addAdjustment()">Save Adjustment</button>
+
+</div>
+
+</div>
+
+<script>
+
+function openModal(){
+document.getElementById("adjustModal").style.display="flex"
+}
+
+function addAdjustment(){
+
+let product=document.getElementById("product").value
+let system=document.getElementById("systemStock").value
+let physical=document.getElementById("physicalStock").value
+let location=document.getElementById("location").value
+let status=document.getElementById("status").value
+
+let difference=physical-system
+
+let table=document.getElementById("adjustmentTable")
+
+let id="ADJ-"+Math.floor(Math.random()*1000)
+
+let row=document.createElement("tr")
+
+row.innerHTML=
+`<td>${id}</td>
+<td>${product}</td>
+<td>${system}</td>
+<td>${physical}</td>
+<td>${difference}</td>
+<td>${location}</td>
+<td><span class="status ${status.toLowerCase()}">${status}</span></td>`
+
+table.appendChild(row)
+
+document.getElementById("adjustModal").style.display="none"
+
+}
+
+</script>
+
+</body>
+</html>

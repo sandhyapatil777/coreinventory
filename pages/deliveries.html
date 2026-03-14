@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<link rel="stylesheet" href="../css/forms.css">
+<link rel="stylesheet" href="../css/style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Delivery Orders - CoreInventory</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+display:flex;
+height:100vh;
+background:#0f172a;
+color:white;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+width:260px;
+background:#020617;
+padding:25px;
+display:flex;
+flex-direction:column;
+}
+
+.logo{
+font-size:22px;
+font-weight:600;
+color:#38bdf8;
+margin-bottom:35px;
+}
+
+.sidebar a{
+color:#cbd5f5;
+text-decoration:none;
+padding:12px;
+border-radius:8px;
+margin:4px 0;
+transition:0.3s;
+}
+
+.sidebar a:hover{
+background:#1e293b;
+color:#38bdf8;
+}
+
+/* MAIN */
+
+.main{
+flex:1;
+padding:30px;
+overflow-y:auto;
+}
+
+/* TOPBAR */
+
+.topbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:25px;
+}
+
+.search{
+padding:10px;
+border-radius:8px;
+border:none;
+background:#1e293b;
+color:white;
+width:250px;
+}
+
+.add-btn{
+background:#38bdf8;
+border:none;
+padding:10px 16px;
+border-radius:8px;
+cursor:pointer;
+}
+
+/* TABLE */
+
+.table-container{
+background:#1e293b;
+padding:20px;
+border-radius:12px;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+}
+
+th,td{
+padding:12px;
+text-align:left;
+}
+
+th{
+color:#94a3b8;
+border-bottom:1px solid #334155;
+}
+
+tr:hover{
+background:#0f172a;
+}
+
+/* STATUS */
+
+.status{
+padding:5px 10px;
+border-radius:6px;
+font-size:12px;
+cursor:pointer;
+}
+
+.pick{
+background:#6366f1;
+}
+
+.pack{
+background:#f59e0b;
+}
+
+.done{
+background:#22c55e;
+}
+
+/* TRACKING BAR */
+
+.tracking-box{
+background:#1e293b;
+margin-top:20px;
+padding:25px;
+border-radius:12px;
+display:none;
+}
+
+.progress-container{
+display:flex;
+justify-content:space-between;
+position:relative;
+margin-top:20px;
+}
+
+.progress-container::before{
+content:'';
+position:absolute;
+top:15px;
+left:0;
+width:100%;
+height:4px;
+background:#334155;
+z-index:0;
+}
+
+.progress{
+position:absolute;
+top:15px;
+left:0;
+height:4px;
+background:#22c55e;
+z-index:1;
+width:0%;
+transition:0.4s;
+}
+
+.circle{
+width:35px;
+height:35px;
+background:#334155;
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
+z-index:2;
+font-size:12px;
+}
+
+.circle.active{
+background:#22c55e;
+}
+
+/* MODAL */
+
+.modal{
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.7);
+justify-content:center;
+align-items:center;
+}
+
+.modal-content{
+background:#1e293b;
+padding:25px;
+border-radius:12px;
+width:400px;
+}
+
+.modal input, .modal select{
+width:100%;
+padding:10px;
+margin:8px 0;
+border-radius:6px;
+border:none;
+background:#0f172a;
+color:white;
+}
+
+.modal button{
+margin-top:10px;
+padding:10px;
+background:#38bdf8;
+border:none;
+border-radius:6px;
+cursor:pointer;
+width:100%;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="sidebar">
+
+<div class="logo">CoreInventory</div>
+
+<a href="dashboard.html">Dashboard</a>
+<a href="products.html">Products</a>
+<a href="receipts.html">Receipts</a>
+<a href="deliveries.html">Delivery Orders</a>
+<a href="transfers.html">Internal Transfers</a>
+<a href="adjustments.html">Inventory Adjustment</a>
+<a href="movements.html">Move History</a>
+<a href="warehouses.html">Warehouses</a>
+<a href="settings.html">Settings</a>
+<a href="profile.html">Profile</a>
+<a href="logout.html">Logout</a>
+
+</div>
+
+<div class="main">
+
+<div class="topbar">
+
+<h2>Delivery Orders</h2>
+
+<input class="search" placeholder="Search order or customer">
+
+<button class="add-btn" onclick="openModal()">Create Delivery</button>
+
+</div>
+
+<div class="table-container">
+
+<table>
+
+<thead>
+<tr>
+<th>Order ID</th>
+<th>Customer</th>
+<th>Product</th>
+<th>Quantity</th>
+<th>Warehouse</th>
+<th>Status</th>
+</tr>
+</thead>
+
+<tbody id="deliveryTable">
+
+<tr>
+<td>DO-001</td>
+<td>City Furniture</td>
+<td>Chair</td>
+<td>10</td>
+<td>Warehouse A</td>
+<td><span class="status done" onclick="showTracking('DO-001')">Done</span></td>
+</tr>
+
+<tr>
+<td>DO-002</td>
+<td>Steel Fabricators</td>
+<td>Steel Rod</td>
+<td>20</td>
+<td>Main Warehouse</td>
+<td><span class="status pick" onclick="showTracking('DO-002')">Pick</span></td>
+</tr>
+
+<tr>
+<td>DO-003</td>
+<td>Interior Works</td>
+<td>Metal Frame</td>
+<td>15</td>
+<td>Production Floor</td>
+<td><span class="status pack" onclick="showTracking('DO-003')">Pack</span></td>
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+<div class="tracking-box" id="trackingBox">
+
+<h3>Order Tracking</h3>
+
+<div class="progress-container">
+
+<div class="progress" id="progress"></div>
+
+<div class="circle">1</div>
+<div class="circle">2</div>
+<div class="circle">3</div>
+<div class="circle">4</div>
+
+</div>
+
+<div style="display:flex;justify-content:space-between;margin-top:10px;font-size:13px;">
+<span>Order Placed</span>
+<span>Picking</span>
+<span>Packing</span>
+<span>Delivered</span>
+</div>
+
+</div>
+
+</div>
+
+<div class="modal" id="deliveryModal">
+
+<div class="modal-content">
+
+<h3>Create Delivery Order</h3>
+
+<input type="text" id="customer" placeholder="Customer Name">
+<input type="text" id="product" placeholder="Product">
+<input type="number" id="qty" placeholder="Quantity">
+
+<select id="warehouse">
+<option>Main Warehouse</option>
+<option>Warehouse A</option>
+<option>Production Floor</option>
+</select>
+
+<select id="status">
+<option>Pick</option>
+<option>Pack</option>
+<option>Done</option>
+</select>
+
+<button onclick="addDelivery()">Save Delivery</button>
+
+</div>
+
+</div>
+
+<script>
+
+function openModal(){
+document.getElementById("deliveryModal").style.display="flex"
+}
+
+function addDelivery(){
+
+let customer=document.getElementById("customer").value
+let product=document.getElementById("product").value
+let qty=document.getElementById("qty").value
+let warehouse=document.getElementById("warehouse").value
+let status=document.getElementById("status").value
+
+let table=document.getElementById("deliveryTable")
+
+let id="DO-"+Math.floor(Math.random()*1000)
+
+let row=document.createElement("tr")
+
+row.innerHTML=
+`<td>${id}</td>
+<td>${customer}</td>
+<td>${product}</td>
+<td>${qty}</td>
+<td>${warehouse}</td>
+<td><span class="status ${status.toLowerCase()}" onclick="showTracking('${id}')">${status}</span></td>`
+
+table.appendChild(row)
+
+document.getElementById("deliveryModal").style.display="none"
+
+}
+
+function showTracking(orderId){
+
+let statusStep={
+"DO-001":4,
+"DO-002":2,
+"DO-003":3
+}
+
+let step=statusStep[orderId] || 1
+
+let circles=document.querySelectorAll(".circle")
+let progress=document.getElementById("progress")
+
+circles.forEach((circle,index)=>{
+if(index < step){
+circle.classList.add("active")
+}else{
+circle.classList.remove("active")
+}
+})
+
+let percent=((step-1)/(circles.length-1))*100
+progress.style.width=percent+"%"
+
+document.getElementById("trackingBox").style.display="block"
+
+}
+
+</script>
+
+</body>
+</html>
